@@ -1,0 +1,68 @@
+---
+title: "book"
+description: "Compiled language with type inference and garbage collection"
+tags: ["Rust", "Type Inference", "Compiler"]
+status: "Active"
+date: 2024-06-20
+github: "https://github.com/re-masashi/book"
+---
+
+# book
+
+A compiled language with some nice type inference and a garbage collector.
+
+## Features
+
+- Good enough type inference
+- Automatic memory management with GC (Boehm)
+- Standard library
+- Clean, minimal syntax
+
+## Implementation
+
+book is written in Rust.
+I handwrote a lexer and a parser, then a `generator` turns the AST into LLVM IR.
+The LLVM IR is then compiled and linked with the standard library.
+I also wrote the error display mechanism from scratch. Not very robust, but works.
+
+## Why "book"?
+
+Honestly, just needed a name and this one stuck. I don't even remember why. All I remember is, I wanted it to be the best compiler I've ever made.
+
+Whether I achieved that or not (*AT THAT TIME*) is debatable (imo, no).
+
+I wanted to make a performant programming language that compiles to machine code and is kindof easy to use. (I liked the idea).
+
+I used an ["AST-first"](https://thunderseethe.dev/posts/type-inference/) approach.
+This was the first project where I implemented type checking. My previous compilers with static typing accepted the user input to be the ultimate truth, and everything needed type annotations. Although, they didn't have many features to begin with. (The dynamically typed ones I made were painfully bloated and horribly designed, but they did have some nice stuff).
+
+I also learnt how to write syntax highlighting extensions for [VSCode](https://code.visualstudio.com/), [Sublime](https://www.sublimetext.com/), [Vim](https://www.vim.org/), etc.
+
+I learnt a ton of stuff. 
+However, I came across a few stumbling blocks:
+
+- **Book's typechecking is faulty:** I did not think everything through, and since it was my first time, everything was a complete mess. I eventually got to a point where solving issues or adding new features meant having to rewrite a ton of things almost from scratch. For instance, generics did not work everywhere because I decided to use `String` instead of a proper enum for marking the types containing generics.
+
+- **Book's memory access is faulty:** Random segfaults happened. I tried to make arrays dynamic and got stuck in a messy situation.
+Everything was chaotic.
+
+- **Book does not have any IR:** I don't know if this can be classified as a "stumbling block", but this did pose as a serious challenge.
+Adding an IR is not a very challenging thing (imo), but doing that on top of the messy pile of junk I wrote while trying to learn more, made things really difficult.
+An IR might have made things simpler.
+
+- **The code was TERRIBLE:** Things were mixed up. Code responsible for other things was present in wrong locations (for instance, there was a TON of typechecking code within the files responsible for codegen).
+
+- **Book relies on Boehm GC:**  I did not want book to have manual memory management. I had very little idea about runtime things, so I chose Boehm GC after days of bikeshedding over what GC to use.
+While Boehm did solve my headaches, it posed as an additional baggage.
+
+## What now?
+
+Idk, I could have just gone and rewritten it from scratch, but I wanted to just let it be.
+**HOWEVER**, I started a new project (haha) called [Gurtlang](https://github.com/re-masashi/gurtlang) where I try to fix some of my mistakes.
+Gurt uses an RC (naively implemented) and also supports using Boehm (for now, there is no Gurt code that runs on RC but not Boehm GC or vice versa).
+
+There are a ton of more things. I'm still working on Gurt and I hope I'll learn more.
+
+I did encounter some challenges with Gurt but I'll be fixing the issues soon!
+
+

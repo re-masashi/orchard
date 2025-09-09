@@ -1,0 +1,28 @@
+---
+title: "Making of Orchard"
+date: 2025-09-07
+tags: ["Welcome", "Introduction"]
+excerpt: "Everything about Orchard's inception"
+---
+
+# Why?
+
+I wanted to have some sort of place to document everything in a way that I and others can browse through. 
+There is no specific topic. I'll write about nearly everything here.
+Moreover, this gives me a sense of satisfaction and a "space" to express some stuff.
+
+## Features
+
+- Written in [Markdown](https://en.wikipedia.org/wiki/Markdown)
+- Automatically processed by [mdsvex](https://mdsvex.pngwn.io/)
+- Streamlined, easy to maintain and has version control.
+- I can add custom components and customise pretty much everything!
+
+I haven't finished building it yet but it will be done soon.
+
+```javascript
+// COOL SYNTAX HIGHLIGHTING
+function greet() {
+  console.log("Hello, world!");
+}
+```

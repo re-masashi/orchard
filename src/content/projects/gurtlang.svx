@@ -1,0 +1,28 @@
+---
+title: "gurtlang"
+description: "Compiled language which with awesome generics, type inference, ADTs and reference counting"
+tags: ["Rust", "Type Inference", "LLVM", "Compiler"]
+status: "Active"
+date: 2025-09-09
+github: "https://github.com/re-masashi/gurtlang"
+---
+
+# yogurt. gurt: yo
+
+I made a ton of mistakes in [book](https://github.com/re-masashi/book).
+So, I learnt from them and tried to do better with Gurt.
+
+## Features
+
+- Excellent type inference
+- Generics
+- Poly-type functions
+- Awesome sauce syntax
+- Uses RC but supports GC as well (no change in source code needed)
+- Error recovery
+
+## Implementation
+
+I used logos for the lexer, wrote the parser by hand.
+For error reporting I used ariadne.
+I collect the errors then report all of them, with spans, explanations etc all at once.
