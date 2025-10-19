@@ -16,7 +16,7 @@
 	<div class="mx-auto max-w-4xl">
 		<div class="mb-12 text-center">
 			<h1 class="mb-2 text-4xl font-bold">Projects</h1>
-			<p class="text-lg opacity-75">Thoughts, tutorials and digital garden entries</p>
+			<p class="text-lg opacity-75">Fun(?) stuff I've worked on</p>
 		</div>
 
 		{#if projects && projects.length > 0}

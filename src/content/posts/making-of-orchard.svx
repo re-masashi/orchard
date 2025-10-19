@@ -1,28 +1,145 @@
 ---
-title: "Making of Orchard"
-date: 2025-09-07
-tags: ["Welcome", "Introduction"]
-excerpt: "Everything about Orchard's inception"
+title: "Why Rust Sucks"
+date: 2025-10-19
+tags: ["Rust", "Criticism"]
+excerpt: "Rust SUCKS (but it's still better than a ton of other stuff)"
 ---
 
-# Why?
+# Why Rust?
 
-I wanted to have some sort of place to document everything in a way that I and others can browse through. 
-There is no specific topic. I'll write about nearly everything here.
-Moreover, this gives me a sense of satisfaction and a "space" to express some stuff.
+[Rust](https://rust-lang.org/) is an awesome language. I enjoy being able to write performant™ code without having to deal with a ton of UB footguns and memory wierdness that C and C++ throw at you. I mean, it might be a skill issue, but nevertheless, Rust is wonderful.
 
-## Features
+Secondly, I really like the ADTs and how powerful pattern matching is in Rust.
 
-- Written in [Markdown](https://en.wikipedia.org/wiki/Markdown)
-- Automatically processed by [mdsvex](https://mdsvex.pngwn.io/)
-- Streamlined, easy to maintain and has version control.
-- I can add custom components and customise pretty much everything!
+The ecosystem is really great, cargo is nice, etc.
 
-I haven't finished building it yet but it will be done soon.
+# Why does Rust suck?
 
-```javascript
-// COOL SYNTAX HIGHLIGHTING
-function greet() {
-  console.log("Hello, world!");
+Rust deserves all the glaze BUT there's a ton of pain points.
+I won't be complaining about the borrow checker or how async Rust "sucks".
+
+## SLOW COMPILE TIMES
+
+The frontend and the backend, both are kindof slow.
+Maybe because I have a thrashy old HP ProBook, but the fact that it is slow, is undeniably true.
+You can try enabling the experimental cranelift backend, and/or using mold as a linker, or enabling nightly features such as generic sharing, but it STILL stays sluggishly painfully slow.
+
+## WEIRD ERROR MESSAGES
+
+Rust has some of the best error recovery and error messages out of the languages I've worked with.
+But, sometimes, when I'm working on something which has some type magic going on, the error messages are horrendous.
+
+I don't have the error messages I got, but when working with Chumsky there were errors spanning 1000s of lines just because of something stupid like missing `.clone()`.
+
+We do get an option to save the errors in a separate file but I don't think it helps much.
+
+Here's an example from a [post](https://www.geldata.com/blog/python-rust-chumsky-tree-sitter-and-edgedb-walk-into-a-bar#edgedb-s-existing-python-parser) related to EdgeDB's parser.
+
+```diff
+let anchors2 = choice((ident("__new__"), ident("__old__")))
+-  .map(append(AnchorKind::SpecialAnchor(
+      SpecialAnchor { kind: None })));
+```
+
+Removing that line should give us an error message like:
+
+```
+Error: `anchors2` is a parser producing `&str`, but a parser
+  producing `(&str, AnchorKind)` is expected.
+```
+
+But we get...
+```
+error[E0277]: the trait bound `impl chumsky::Parser<tokenizer::Token<'_>, String, Error = chumsky::error::Simple<tokenizer::Token<'_>>>: chumsky::Parser<tokenizer::Token<'_>, (String, ast::AnchorKind)>` is not satisfied
+    --> edb/edgeql-parser/src/parser/expr.rs:204:17
+    |
+    204 |             .or(anchors2)
+    |              -- ^^^^^^^^ the trait `chumsky::Parser<tokenizer::Token<'_>, (String, ast::AnchorKind)>` is not implemented for `impl chumsky::Parser<tokenizer::Token<'_>, String, Error = chumsky::error::Simple<tokenizer::Token<'_>>>`
+    |              |
+    |              required by a bound introduced by this call
+    |
+    = help: the following other types implement trait `chumsky::Parser<I, O>`:
+      <&'a T as chumsky::Parser<I, O>>
+      <Arc<T> as chumsky::Parser<I, O>>
+      <Box<T> as chumsky::Parser<I, O>>
+      <BoxedParser<'a, I, O, E> as chumsky::Parser<I, O>>
+      <DelimitedBy<A, L, R, U, V> as chumsky::Parser<I, O>>
+      <Foldl<A, F, O, U> as chumsky::Parser<I, O>>
+      <Foldr<A, F, O, U> as chumsky::Parser<I, U>>
+      <Just<I, C, E> as chumsky::Parser<I, C>>
+      and 60 others
+    = note: required for `Choice<(impl Parser<Token<'_>, String, Error = ...>, ..., ...), ...>` to implement `chumsky::Parser<tokenizer::Token<'_>, (String, ast::AnchorKind)>`
+    = note: the full type name has been written to '/home/aljaz/EdgeDB/edgedb/target/debug/deps/edgeql_parser-1e11b2dfdf55249a.long-type-15879293124063691176.txt'
+    note: required by a bound in `chumsky::Parser::or`
+    --> /home/aljaz/.cargo/registry/src/github.com-1ecc6299db9ec823/chumsky-0.9.2/src/lib.rs:915:12
+    |
+    915 |         P: Parser<I, O, Error = Self::Error>,
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ required by this bound in `Parser::or`
+
+    error[E0599]: the method `map` exists for struct `Or<Map<Map<Or<Map<..., ..., ...>, ...>, ..., ...>, ..., ...>, ...>`, but its trait bounds were not satisfied
+    --> edb/edgeql-parser/src/parser/expr.rs:205:14
+    |
+    203 |           let anchors = anchors1
+    |  _______________________-
+    204 | |             .or(anchors2)
+    205 | |             .map(|(name, kind)| Anchor { name, kind })
+    | |             -^^^ method cannot be called due to unsatisfied trait bounds
+    | |_____________|
+    |
+    |
+    ::: /home/aljaz/.cargo/registry/src/github.com-1ecc6299db9ec823/chumsky-0.9.2/src/combinator.rs:22:1
+    |
+    22  |   pub struct Or<A, B>(pub(crate) A, pub(crate) B);
+    |   -------------------
+    |   |
+    |   doesn't satisfy `_: Iterator`
+    |   doesn't satisfy `_: Parser<_, _>`
+    |
+    = note: the full type name has been written to '/home/aljaz/EdgeDB/edgedb/target/debug/deps/edgeql_parser-1e11b2dfdf55249a.long-type-4054597089871732625.txt'
+    = note: the following trait bounds were not satisfied:
+      `chumsky::combinator::Or<chumsky::combinator::Map<chumsky::combinator::Map<chumsky::combinator::Or<chumsky::combinator::Map<impl chumsky::Parser<tokenizer::Token<'_>, String, Error = chumsky::error::Simple<tokenizer::Token<'_>>>, [closure@edb/edgeql-parser/src/parser/expr.rs:193:46: 193:52], String>, chumsky::combinator::Map<impl chumsky::Parser<tokenizer::Token<'_>, String, Error = chumsky::error::Simple<tokenizer::Token<'_>>>, [closure@edb/edgeql-parser/src/parser/expr.rs:194:48: 194:54], String>>, [closure@edb/edgeql-parser/src/parser/expr.rs:198:18: 198:24], ast::SpecialAnchorKind>, impl Fn(ast::AnchorKind) -> (String, ast::AnchorKind), ast::AnchorKind>, chumsky::primitive::Choice<(impl chumsky::Parser<tokenizer::Token<'_>, String, Error = chumsky::error::Simple<tokenizer::Token<'_>>>, impl chumsky::Parser<tokenizer::Token<'_>, String, Error = chumsky::error::Simple<tokenizer::Token<'_>>>, impl chumsky::Parser<tokenizer::Token<'_>, String, Error = chumsky::error::Simple<tokenizer::Token<'_>>>), chumsky::error::Simple<tokenizer::Token<'_>>>>: chumsky::Parser<_, _>`
+      which is required by `&chumsky::combinator::Or<chumsky::combinator::Map<chumsky::combinator::Map<chumsky::combinator::Or<chumsky::combinator::Map<impl chumsky::Parser<tokenizer::Token<'_>, String, Error = chumsky::error::Simple<tokenizer::Token<'_>>>, [closure@edb/edgeql-parser/src/parser/expr.rs:193:46: 193:52], String>, chumsky::combinator::Map<impl chumsky::Parser<tokenizer::Token<'_>, String, Error = chumsky::error::Simple<tokenizer::Token<'_>>>, [closure@edb/edgeql-parser/src/parser/expr.rs:194:48: 194:54], String>>, [closure@edb/edgeql-parser/src/parser/expr.rs:198:18: 198:24], ast::SpecialAnchorKind>, impl Fn(ast::AnchorKind) -> (String, ast::AnchorKind), ast::AnchorKind>, chumsky::primitive::Choice<(impl chumsky::Parser<tokenizer::Token<'_>, String, Error = chumsky::error::Simple<tokenizer::Token<'_>>>, impl chumsky::Parser<tokenizer::Token<'_>, String, Error = chumsky::error::Simple<tokenizer::Token<'_>>>, impl chumsky::Parser<tokenizer::Token<'_>, String, Error = chumsky::error::Simple<tokenizer::Token<'_>>>), chumsky::error::Simple<tokenizer::Token<'_>>>>: chumsky::Parser<_, _>`
+      `chumsky::combinator::Or<chumsky::combinator::Map<chumsky::combinator::Map<chumsky::combinator::Or<chumsky::combinator::Map<impl chumsky::Parser<tokenizer::Token<'_>, String, Error = chumsky::error::Simple<tokenizer::Token<'_>>>, [closure@edb/edgeql-parser/src/parser/expr.rs:193:46: 193:52], String>, chumsky::combinator::Map<impl chumsky::Parser<tokenizer::Token<'_>, String, Error = chumsky::error::Simple<tokenizer::Token<'_>>>, [closure@edb/edgeql-parser/src/parser/expr.rs:194:48: 194:54], String>>, [closure@edb/edgeql-parser/src/parser/expr.rs:198:18: 198:24], ast::SpecialAnchorKind>, impl Fn(ast::AnchorKind) -> (String, ast::AnchorKind), ast::AnchorKind>, chumsky::primitive::Choice<(impl chumsky::Parser<tokenizer::Token<'_>, String, Error = chumsky::error::Simple<tokenizer::Token<'_>>>, impl chumsky::Parser<tokenizer::Token<'_>, String, Error = chumsky::error::Simple<tokenizer::Token<'_>>>, impl chumsky::Parser<tokenizer::Token<'_>, String, Error = chumsky::error::Simple<tokenizer::Token<'_>>>), chumsky::error::Simple<tokenizer::Token<'_>>>>: Iterator`
+      which is required by `&mut chumsky::combinator::Or<chumsky::combinator::Map<chumsky::combinator::Map<chumsky::combinator::Or<chumsky::combinator::Map<impl chumsky::Parser<tokenizer::Token<'_>, String, Error = chumsky::error::Simple<tokenizer::Token<'_>>>, [closure@edb/edgeql-parser/src/parser/expr.rs:193:46: 193:52], String>, chumsky::combinator::Map<impl chumsky::Parser<tokenizer::Token<'_>, String, Error = chumsky::error::Simple<tokenizer::Token<'_>>>, [closure@edb/edgeql-parser/src/parser/expr.rs:194:48: 194:54], String>>, [closure@edb/edgeql-parser/src/parser/expr.rs:198:18: 198:24], ast::SpecialAnchorKind>, impl Fn(ast::AnchorKind) -> (String, ast::AnchorKind), ast::AnchorKind>, chumsky::primitive::Choice<(impl chumsky::Parser<tokenizer::Token<'_>, String, Error = chumsky::error::Simple<tokenizer::Token<'_>>>, impl chumsky::Parser<tokenizer::Token<'_>, String, Error = chumsky::error::Simple<tokenizer::Token<'_>>>, impl chumsky::Parser<tokenizer::Token<'_>, String, Error = chumsky::error::Simple<tokenizer::Token<'_>>>), chumsky::error::Simple<tokenizer::Token<'_>>>>: Iterator`
+```
+
+this monstrocity instead.
+
+## CLIPPY'S UNHELPFUL PEDANTRY
+
+```
+#[test]
+fn test_lexer_handles_pi() {
+    let input = "3.14";
+    let result = lex_number(input);
+    assert_eq!(result, Ok(3.14));  // Clippy: USE std::f64::consts::PI!
 }
 ```
+
+This is the perfect example of Rust being actively unhelpful. Clippy's approx_constant lint fires when you use common mathematical approximations like 3.14, 6.28, or 2.71, demanding you replace them with std::f64::consts::PI, TAU, or E.
+
+BUT I DONT WANT THAT HERE.
+I'm pretty sure most of us don't want that either. Surely SOME projects might benefit from it, but I'm sure that the ones who NEED that precision will know how to use std::f64::consts (and remember to use it).
+I really dislike this sort of pointless backseat driving. 
+
+Yeah sure I can just slap `#[allow(clippy::approx_constant)]` everywhere, but that really shouldn't happen.
+
+# Why I still use Rust over other stuff for my new projects?
+
+When something is a quick script, or something of that kind, I'll use Python or Bash.
+When it's some webdev stuff, I'll just use React (not [Yew](https://yew.rs/) or some obscure Rust frontend framework), [Zustand](https://zustand.docs.pmnd.rs/getting-started/introduction) and [Tailwind](https://tailwindcss.com/) and get it done.
+
+However, when I'm building something where performance counts, Rust is the least worst option.
+
+Rust has some major issues, but most of the problems are minor annoyances, while other languages have *SHOWSTOPPERS*.
+
+With C/C++, I'm constantly worrying about memory safety, undefined behavior, and subtle bugs that only show up in production. Moreover, I personally felt like there's a ton of boilerplate involved too. For instance, I was working on a custp, p2p file sharing protocol where I used C++ and Boost.ASIO, etc to make it, and it wasn't very painful, but it wasn't very pleasant either.
+
+Another issue with C/C++ is how THRASH the tooling is.
+[CMake](https://cmake.org/), [Ninja](https://ninja-build.org), etc are a nightmare to deal with. The lack of an import system is unacceptable to me.
+
+"Use [Zig](https://ziglang.org/)", you say? It looks promising but I won't be using it YET, it's nowhere near Rust in terms of maturity, and has its own flaws.
+
+With Python/JS, I'm dealing with performance ceilings, type issues at runtime, and dependency chaos.
+
+However, I think that most of Rust's issues can be fixed, so I'm hoping they get fixed eventually. Rust would become the most goated language of all time if that happens.
