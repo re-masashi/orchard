@@ -26,3 +26,5 @@ So, I learnt from them and tried to do better with Gurt.
 I used logos for the lexer, wrote the parser by hand.
 For error reporting I used ariadne.
 I collect the errors then report all of them, with spans, explanations etc all at once.
+
+It was really great but i started working on another language called [ Vial ](https://github.com/re-masashi/vial) because some things in gurtlang were messy.
