@@ -1,0 +1,58 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import PageLayout from './PageLayout.astro';
+
+interface Props {
+  post: CollectionEntry<'blog' | 'projects'>;
+  collection: 'blog' | 'projects';
+}
+
+const { post, collection } = Astro.props;
+const { title, description, pubDate, tags } = post.data;
+
+const formattedDate = pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const activePage = collection === 'blog' ? 'blog' : 'projects';
+---
+
+<PageLayout 
+  title={`${title} | masashi's orchard`} 
+  description={description}
+  activePage={activePage}
+>
+  <article class="max-w-3xl mx-auto px-6 lg:px-10 py-8 lg:py-12">
+    <header class="mb-10">
+      <div class="flex items-center gap-3 mb-4">
+        <time datetime={pubDate.toISOString()} class="font-mono text-fg-subtle text-sm">{formattedDate}</time>
+        {tags.length > 0 && (
+          <span class="text-fg-subtle">•</span>
+          <div class="flex gap-2">
+            {tags.map((tag) => (
+              <span class="px-2 py-0.5 text-xs font-mono bg-border-subtle text-fg-muted rounded">{tag}</span>
+            ))}
+          </div>
+        )}
+      </div>
+      <h1 class="font-display text-4xl lg:text-5xl font-semibold leading-tight mb-4">{title}</h1>
+      <p class="text-fg-muted text-lg">{description}</p>
+    </header>
+    
+    <div class="prose prose-invert max-w-none">
+      <slot />
+    </div>
+    
+    <footer class="mt-16 pt-8 border-t border-border">
+      <a href={`/${collection}`} class="inline-flex items-center gap-2 text-sm text-fg-muted hover:text-accent transition-colors group">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="group-hover:-translate-x-1 transition-transform">
+          <path d="M19 12H5"></path>
+          <path d="m12 19-7-7 7-7"></path>
+        </svg>
+        <span>back to {collection}</span>
+      </a>
+    </footer>
+  </article>
+</PageLayout>

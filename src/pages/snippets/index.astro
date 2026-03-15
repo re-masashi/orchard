@@ -1,0 +1,71 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+
+const snippets = await getCollection('snippets');
+---
+
+<PageLayout title="snippets" activePage="snippets">
+  <div class="max-w-4xl mx-auto px-6 lg:px-10 py-8 lg:py-12">
+    <section class="mb-16 lg:mb-24 animate-fade-up stagger-1">
+      <p class="text-fg-muted text-sm uppercase tracking-widest mb-4 font-mono"> code snippets / quick references</p>
+      <h2 class="font-display text-4xl lg:text-5xl font-semibold leading-tight mb-6">
+        Snippets
+      </h2>
+    </section>
+    
+    <section class="animate-fade-up stagger-2">
+      <input 
+        type="text" 
+        id="snippet-search"
+        placeholder="Search snippets..." 
+        class="w-full bg-bg-elevated border border-border rounded-lg px-4 py-3 text-fg font-mono text-sm focus:outline-none focus:border-accent transition-colors"
+      />
+      
+      <div id="snippet-results" class="grid gap-3 mt-6">
+        {snippets.map((snippet) => (
+          <a href={`/snippets/${snippet.id}`} class="snippet-item p-4 bg-bg-elevated border border-border rounded-lg hover:border-accent/50 transition-colors" data-title={snippet.data.title.toLowerCase()} data-tags={snippet.data.tags.join(' ').toLowerCase()}>
+            <h4 class="font-display text-lg font-medium mb-1">{snippet.data.title}</h4>
+            <p class="text-fg-muted text-sm">{snippet.data.description}</p>
+            <div class="flex gap-2 mt-2">
+              {snippet.data.tags.map((tag) => (
+                <span class="px-2 py-0.5 text-xs font-mono bg-border-subtle text-fg-muted rounded">{tag}</span>
+              ))}
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
+  
+  <script>
+    document.addEventListener('astro:page-load', () => {
+      const searchInput = document.getElementById('snippet-search');
+      const snippetItems = document.querySelectorAll('.snippet-item');
+      
+      function fuzzyMatch(str: string, pattern: string): boolean {
+        let si = 0, pi = 0;
+        while (si < str.length && pi < pattern.length) {
+          if (str[si] === pattern[pi]) pi++;
+          si++;
+        }
+        return pi === pattern.length;
+      }
+      
+      searchInput?.addEventListener('input', (e) => {
+        const query = (e.target as HTMLInputElement).value.toLowerCase();
+        
+        snippetItems.forEach((item) => {
+          const title = item.getAttribute('data-title') || '';
+          const tags = item.getAttribute('data-tags') || '';
+          
+          if (query === '' || fuzzyMatch(title, query) || fuzzyMatch(tags, query)) {
+            (item as HTMLElement).style.display = 'block';
+          } else {
+            (item as HTMLElement).style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+</PageLayout>
