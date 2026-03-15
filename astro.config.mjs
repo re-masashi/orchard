@@ -90,8 +90,4 @@ export default defineConfig({
       config.markdown.rehypePlugins.push(rehypeCodeWrapper);
     },
   },
-  prefetch: {
-    prefetchAll: true,
-    defaultStrategy: "hover",
-  },
 });

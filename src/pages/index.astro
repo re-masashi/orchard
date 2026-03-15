@@ -155,7 +155,7 @@ const highlightedCode = await codeToHtml(codeExample, {
       
       <div id="snippet-results" class="grid gap-3 mt-4">
         {featuredSnippets.map((snippet) => (
-          <a href={`/snippets/${snippet.id}`} class="snippet-item p-4 bg-bg-elevated border border-border rounded-lg hover:border-accent/50 transition-colors" data-title={snippet.data.title.toLowerCase()} data-tags={snippet.data.tags.join(' ').toLowerCase()}>
+          <a href={`/snippets/${snippet.id}`} class="snippet-item p-4 bg-bg-elevated border border-border rounded-lg hover:border-accent/50 transition-colors" data-title={snippet.data.title.toLowerCase()} data-description={snippet.data.description.toLowerCase()} data-tags={snippet.data.tags.join(' ').toLowerCase()}>
             <h4 class="font-display text-base font-medium mb-1">{snippet.data.title}</h4>
             <p class="text-fg-muted text-sm">{snippet.data.description}</p>
             <div class="flex gap-2 mt-2">
@@ -199,11 +199,16 @@ const highlightedCode = await codeToHtml(codeExample, {
   </div>
   
   <script>
-    document.addEventListener('astro:page-load', () => {
+    console.log('Snippet search script loaded');
+    
+    function initSearch() {
       const searchInput = document.getElementById('snippet-search');
       const snippetItems = document.querySelectorAll('.snippet-item');
       
-      function fuzzyMatch(str: string, pattern: string): boolean {
+      console.log('searchInput:', searchInput);
+      console.log('snippetItems:', snippetItems.length);
+      
+      function fuzzyMatch(str, pattern) {
         let si = 0, pi = 0;
         while (si < str.length && pi < pattern.length) {
           if (str[si] === pattern[pi]) pi++;
@@ -212,20 +217,32 @@ const highlightedCode = await codeToHtml(codeExample, {
         return pi === pattern.length;
       }
       
-      searchInput?.addEventListener('input', (e) => {
-        const query = (e.target as HTMLInputElement).value.toLowerCase();
-        
-        snippetItems.forEach((item) => {
-          const title = item.getAttribute('data-title') || '';
-          const tags = item.getAttribute('data-tags') || '';
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          const query = e.target.value.toLowerCase();
+          console.log('Search query:', query);
           
-          if (query === '' || fuzzyMatch(title, query) || fuzzyMatch(tags, query)) {
-            (item as HTMLElement).style.display = 'block';
-          } else {
-            (item as HTMLElement).style.display = 'none';
-          }
+          snippetItems.forEach((item) => {
+            const title = item.getAttribute('data-title') || '';
+            const description = item.getAttribute('data-description') || '';
+            const tags = item.getAttribute('data-tags') || '';
+            
+            if (query === '' || fuzzyMatch(title, query) || fuzzyMatch(description, query) || fuzzyMatch(tags, query)) {
+              item.style.display = 'block';
+            } else {
+              item.style.display = 'none';
+            }
+          });
         });
-      });
-    });
+      }
+    }
+    
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initSearch);
+    } else {
+      initSearch();
+    }
+    
+    document.addEventListener('astro:page-load', initSearch);
   </script>
 </PageLayout>
