@@ -10,6 +10,9 @@
   <p class="font-mono text-white/50">
     {{ page.description }}
   </p>
-  {{ page.content | safe }}
+  {% set body = page.content
+    | regex_replace(pattern=`<h2( [^>]*)?>`, rep=`<h2$1 class="font-array text-2xl">`)
+    | regex_replace(pattern=`<a ([^>]*)>`, rep=`<a $1 class="text-white underline">`) %}
+  {{ body | safe }}
 </div>
 {% endblock %}
