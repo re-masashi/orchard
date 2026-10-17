@@ -2,6 +2,7 @@ base_url = "https://masashi.nishi.boats"
 title = "Masashi's Orchard"
 description = "Masashi's digital garden. PLDev and stuff"
 output_dir = "dist"
+minify_html = true
 
 [markdown.highlighting]
 theme = "vitesse-dark"
