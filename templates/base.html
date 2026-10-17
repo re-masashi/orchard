@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{{ config.title }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ get_url(path="output.css") }}" />
+  </head>
+  <body
+    class="h-screen w-screen overflow-hidden overflow-y-scroll flex flex-col bg-black"
+  >
+    <div
+      class="w-screen h-[6vh] border-b-2 border-white/40 flex flex-row items-center px-0 md:px-4 py-3 text-white/85"
+    >
+      <div class="px-[3vw] font-array uppercase font-black">
+        <a class="text-xl md:text-2xl" href="/">Masashi's Orchard</a>
+      </div>
+      <div class="ml-auto flex flex-row gap-3 font-array text-sm">
+        <a href="{{ get_url(path="@/blog/_index.md") }}" class="hover:text-white transition-all">blog</a>
+        <div class="text-white/50">//</div>
+        <a href="/projects" class="hover:text-white transition-all">projects</a>
+        <div class="text-white/50">//</div>
+        <a href="{{ get_url(path="@/snippets/_index.md") }}" class="hover:text-white transition-all">snippets</a>
+      </div>
+    </div>
+    <div
+      class="w-screen flex flex-col gap-2 overflow-hidden overflow-y-scroll p-4 text-white/85"
+    >
+      {% block content %}{% endblock %}
+      <footer class="w-full mt-16 border-t-2 border-white/30" id="footer">
+        <img src="{{ get_url(path="cat.webp") }}" class="w-36 ml-auto translate-x-4 translate-y-4" />
+      </footer>
+    </div>
+  </body>
+</html>

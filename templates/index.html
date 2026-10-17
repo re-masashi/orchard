@@ -1,5 +1,89 @@
-<!doctype html>
-<html lang="en">
-  <head><meta charset="UTF-8" /><title>{{ config.title }}</title></head>
-  <body><p>placeholder</p></body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+{% set blog = get_section(path="blog/_index.md") %}
+{% set snippets = get_section(path="snippets/_index.md") %}
+<div
+  class="w-screen flex flex-row gap-2 overflow-hidden overflow-y-scroll p-4 text-white/85"
+>
+  <div class="flex flex-col w-6/7 pt-10 px-[3vw] gap-3">
+    <h1 class="font-array text-5xl">Meow!</h1>
+    <p class="font-mono">
+      I share my thoughts, progress, findings, opinions and some random
+      stuff here. Mostly PLDev, graphics or systems stuff.
+    </p>
+    <h2 class="text-2xl font-array my-2">Recent Stuff</h2>
+    {% for post in blog.pages %}{% if loop.index <= 5 %}
+    <article
+      class="group relative border p-2 lg:p-3 border-white/10 hover:border-white/50 transition-all duration-300 cursor-pointer font-mono"
+    >
+      <div class="relative">
+        <a
+          href="{{ post.permalink }}"
+          class="font-array text-xl md:text-2xl group-hover:text-white transition-all duration-300"
+        >
+          {{ post.title }}
+        </a>
+
+        <p class="mb-2">
+          {{ post.description }}
+        </p>
+
+        <div class="flex flex-row items-center gap-4 text-sm">
+          <span datetime="{{ post.date }}">{{ post.date | date(format="%B %d, %Y") }}</span>
+        </div>
+      </div>
+    </article>
+    {% endif %}{% endfor %}
+    <h2 class="text-2xl font-array my-2">Snippets</h2>
+    <input
+      class="font-mono border border-white/10 mb-2 p-2 py-3 focus:outline-none"
+      placeholder="search snippets..."
+    />
+    {% for snippet in snippets.pages %}{% if loop.index <= 3 %}
+    <a
+      href="{{ snippet.permalink }}"
+      data-title="{{ snippet.title }}"
+      data-description="{{ snippet.description }}"
+      data-tags="{{ snippet.extra.tags | join(sep=" ") }}"
+      class="border border-white/10 p-2"
+    >
+      <h4 class="font-display text-base font-medium mb-0.5">
+        {{ snippet.title }}
+      </h4>
+      <p class="text-fg-muted text-sm">
+        {{ snippet.description }}
+      </p>
+      <div class="flex gap-2">
+        {% for t in snippet.extra.tags %}<span class="px-2 py-0.5 text-xs font-mono bg-border-subtle text-fg-muted rounded">{{ t }}</span>{% endfor %}
+      </div>
+    </a>
+    {% endif %}{% endfor %}
+  </div>
+  <div class="text-white/85 w-3/7 mr-[3vw] flex flex-col gap-3 pl-20">
+    <h2 class="text-xl font-array my-2">Featured</h2>
+    {% for post in blog.pages %}{% if post.extra.featured %}
+    <article
+      class="group relative border p-2 lg:p-3 border-white/10 hover:border-white/50 transition-all duration-300 cursor-pointer font-mono"
+    >
+      <div class="relative">
+        <a
+          href="{{ post.permalink }}"
+          class="font-array text-lg md:text-xl group-hover:text-white transition-all duration-300"
+        >
+          {{ post.title }}
+        </a>
+
+        <p class="mb-2 text-sm">
+          {{ post.description }}
+        </p>
+
+        <div class="flex flex-row items-center gap-4 text-xs">
+          <span datetime="{{ post.date }}">{{ post.date | date(format="%B %d, %Y") }}</span>
+        </div>
+      </div>
+    </article>
+    {% endif %}{% endfor %}
+    <img src="{{ get_url(path="lain.webp") }}" class="w-40 absolute md:w-55 bottom-0.5 right-0" />
+  </div>
+</div>
+{% endblock %}
