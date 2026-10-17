@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: Array;
+  src: url("./fonts/Array_Complete/Fonts/WEB/fonts/Array-Bold.woff2")
+    format("woff2");
+  font-weight: regular;
+}
+
+@utility font-array {
+  font-family: "Array", sans-serif;
+}
+
+pre {
+  padding: 1rem;
+  overflow-x: auto;
+}
