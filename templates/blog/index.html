@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Blog | Masashi{% endblock %}
+{% block content %}
+<div class="flex flex-col w-full pt-10 px-[3vw] gap-3">
+  <h1 class="font-array text-5xl">Blog</h1>
+  {% for post in section.pages %}
+  <article
+    class="group relative border p-2 lg:p-3 border-white/10 hover:border-white/50 transition-all duration-300 cursor-pointer font-mono"
+  >
+    <div class="relative">
+      <a
+        href="{{ post.permalink }}"
+        class="font-array text-xl md:text-2xl group-hover:text-white transition-all duration-300"
+      >
+        {{ post.title }}
+      </a>
+
+      <p class="mb-2">
+        {{ post.description }}
+      </p>
+
+      <div class="flex flex-row items-center gap-4 text-sm">
+        <span datetime="{{ post.date }}">{{ post.date | date(format="%B %d, %Y") }}</span>
+        {% for t in post.extra.tags %}<span class="text-white/30">// {{ t }}</span>{% endfor %}
+      </div>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+{% endblock %}
