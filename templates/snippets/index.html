@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Snippets | Masashi{% endblock %}
+{% block content %}
+<div class="flex flex-col w-full pt-10 px-[3vw] gap-3">
+  <h1 class="font-array text-5xl">Snippets</h1>
+  {% for snippet in section.pages %}
+  <a
+    href="{{ snippet.permalink }}"
+    data-title="{{ snippet.title }}"
+    data-description="{{ snippet.description }}"
+    data-tags="{{ snippet.extra.tags | join(sep=" ") }}"
+    class="border border-white/10 p-2"
+  >
+    <h4 class="font-display text-base font-medium mb-0.5">
+      {{ snippet.title }}
+    </h4>
+    <p class="text-fg-muted text-sm">
+      {{ snippet.description }}
+    </p>
+    <div class="flex gap-2">
+      {% for t in snippet.extra.tags %}<span class="px-2 py-0.5 text-xs font-mono bg-border-subtle text-fg-muted rounded">{{ t }}</span>{% endfor %}
+    </div>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}
