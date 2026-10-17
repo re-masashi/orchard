@@ -2,7 +2,7 @@
 title: "Matching over std::variant"
 description: "Match over C++ std::variant in a kindof less redundant manner"
 extra:
-  tags: ["c++", "template"]
+  tags: ["c++", "templates"]
   filename: "variant_macthing.hpp"
 ---
 
