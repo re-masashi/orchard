@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Masashi</title>
+    <link rel="stylesheet" href="output.css" />
+  </head>
+  <body
+    class="h-screen w-screen overflow-hidden overflow-y-scroll flex flex-col bg-black"
+  >
+    <div
+      class="w-screen h-[6vh] border-b-2 border-white/40 flex flex-row items-center px-0 md:px-4 py-3 text-white/85"
+    >
+      <div class="px-[3vw] font-array uppercase font-black">
+        <a class="text-xl md:text-2xl" href="/">Masashi's Orchard</a>
+      </div>
+      <div class="ml-auto flex flex-row gap-3 font-array text-sm">
+        <a href="/blog" class="hover:text-white transition-all">blog</a>
+        <div class="text-white/50">//</div>
+        <a href="/projects" class="hover:text-white transition-all">projects</a>
+        <div class="text-white/50">//</div>
+        <a href="/snippets" class="hover:text-white transition-all">snippets</a>
+      </div>
+    </div>
+    <div
+      class="w-screen flex flex-row gap-2 overflow-hidden overflow-y-scroll p-4 text-white/85"
+    >
+      <div class="flex flex-col w-6/7 pt-10 px-[3vw] gap-3">
+        <h1 class="font-array text-5xl">Meow!</h1>
+        <p class="font-mono">
+          I share my thoughts, progress, findings, opinions and some random
+          stuff here. Mostly PLDev, graphics or systems stuff.
+        </p>
+        <h2 class="text-2xl font-array my-2">Recent Stuff</h2>
+        <article
+          class="group relative border p-2 lg:p-3 border-white/10 hover:border-white/50 transition-all duration-300 cursor-pointer font-mono"
+        >
+          <div class="relative">
+            <a
+              href="/blog/zig-did-what"
+              class="font-array text-xl md:text-2xl group-hover:text-white transition-all duration-300"
+            >
+              awesome gamedev resources
+            </a>
+
+            <p class="mb-2">
+              cool gamedev resources i found. mostly specific to c++.
+            </p>
+
+            <div class="flex flex-row items-center gap-4 text-sm">
+              <span datetime="2026-03-14">July 19, 2026</span>
+            </div>
+          </div>
+        </article>
+        <article
+          class="group relative border p-2 lg:p-3 border-white/10 hover:border-white/50 transition-all duration-300 cursor-pointer font-mono"
+        >
+          <div class="relative">
+            <a
+              href="/blog/zig-did-what"
+              class="font-array text-xl md:text-2xl group-hover:text-white transition-all duration-300"
+            >
+              atomics are scary
+            </a>
+
+            <p class="mb-2">
+              how my ETS-like term storage spent 50% of its time on atomics
+            </p>
+
+            <div class="flex flex-row items-center gap-4 text-sm">
+              <span datetime="2026-03-14">December 14, 2025</span>
+            </div>
+          </div>
+        </article>
+        <h2 class="text-2xl font-array my-2">Snippets</h2>
+        <input
+          class="font-mono border border-white/10 mb-2 p-2 py-3 focus:outline-none"
+          placeholder="search snippets..."
+        />
+        <a href="" class="border border-white/10 p-2">
+          <h4 class="font-display text-base font-medium mb-0.5">
+            scoped tracing macro
+          </h4>
+          <p class="text-fg-muted text-sm">
+            trace execution time for a function with a macro (for C++)
+          </p>
+          <div class="flex gap-2"></div>
+        </a>
+        <a href="" class="border border-white/10 p-2">
+          <h4 class="font-display text-base font-medium mb-0.5">
+            matching over std::variant
+          </h4>
+          <p class="text-fg-muted text-sm">
+            match over std::variant in a less redundant manner
+          </p>
+          <div class="flex gap-2"></div>
+        </a>
+      </div>
+      <div class="text-white/85 w-3/7 mr-[3vw] flex flex-col gap-3 pl-20">
+        <h2 class="text-xl font-array my-2">Featured</h2>
+        <article
+          class="group relative border p-2 lg:p-3 border-white/10 hover:border-white/50 transition-all duration-300 cursor-pointer font-mono"
+        >
+          <div class="relative">
+            <a
+              href="/blog/zig-did-what"
+              class="font-array text-lg md:text-xl group-hover:text-white transition-all duration-300"
+            >
+              Zig did WHAT?
+            </a>
+
+            <p class="mb-2 text-sm">
+              Zig's latest version adds a thingamagic which ensures memory
+              safety. Any segfaults after this are the OS's fault.
+            </p>
+
+            <div class="flex flex-row items-center gap-4 text-xs">
+              <span datetime="2026-03-14">March 14, 2026</span>
+            </div>
+          </div>
+        </article>
+        <img src="lain.webp" class="w-40 absolute md:w-55 bottom-0.5 right-0" />
+      </div>
+    </div>
+  </body>
+</html>
