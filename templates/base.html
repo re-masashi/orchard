@@ -27,9 +27,11 @@
       class="w-screen flex flex-col gap-2 overflow-hidden overflow-y-scroll p-4 text-white/85"
     >
       {% block content %}{% endblock %}
+      {% block footer %}
       <footer class="w-full mt-16 border-t-2 border-white/30" id="footer">
         <img src="{{ get_url(path="cat.webp") }}" class="w-36 ml-auto translate-x-4 translate-y-4" />
       </footer>
+      {% endblock %}
     </div>
   </body>
 </html>
