@@ -18,7 +18,7 @@
 
     <div class="flex flex-row items-center gap-4 text-sm">
       <span datetime="{{ post.date }}">{{ post.date | date(format="%B %d, %Y") }}</span>
-      {% for t in post.extra.tags %}<span class="text-white/30">// {{ t }}</span>{% endfor %}
+      {% for t in post.extra.tags %}<span class="text-white/30"><span aria-hidden="true">// </span>{{ t }}</span>{% endfor %}
     </div>
   </a>
   {% endfor %}

@@ -8,12 +8,12 @@
     href="{{ snippet.permalink }}"
     data-title="{{ snippet.title }}"
     data-description="{{ snippet.description }}"
-    class="border border-white/10 p-2"
+    class="border border-white/10 hover:border-white/50 transition-all duration-300 p-2"
   >
-    <h4 class="font-array text-base font-medium mb-0.5">
+    <h2 class="font-array text-base font-medium mb-0.5">
       {{ snippet.title }}
-    </h4>
-    <p class="text-fg-muted text-sm">
+    </h2>
+    <p class="text-sm">
       {{ snippet.description }}
     </p>
   </a>

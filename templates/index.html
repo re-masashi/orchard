@@ -32,7 +32,7 @@
     {% endif %}{% endfor %}
     <h2 class="text-2xl font-array my-2">Snippets</h2>
     <input
-      class="font-mono border border-white/10 mb-2 p-2 py-3 focus:outline-none"
+      class="font-mono border border-white/10 mb-2 p-2 py-3 focus:outline-none focus:border-white/40 focus:bg-white/5"
       placeholder="search snippets..."
     />
     {% for snippet in snippets.pages %}{% if loop.index <= 3 %}
@@ -40,12 +40,12 @@
       href="{{ snippet.permalink }}"
       data-title="{{ snippet.title }}"
       data-description="{{ snippet.description }}"
-      class="border border-white/10 p-2"
+      class="border border-white/10 hover:border-white/50 transition-all duration-300 p-2"
     >
-      <h4 class="font-array text-base font-medium mb-0.5">
+      <h3 class="font-array text-base font-medium mb-0.5">
         {{ snippet.title }}
-      </h4>
-      <p class="text-fg-muted text-sm">
+      </h3>
+      <p class="text-sm">
         {{ snippet.description }}
       </p>
     </a>
@@ -71,7 +71,11 @@
       </div>
     </a>
     {% endif %}{% endfor %}
-    <img src="{{ get_url(path="lain.webp") }}" class="w-40 absolute md:w-55 bottom-0.5 right-0" />
+    <img
+      src="{{ get_url(path="lain.webp") }}"
+      alt="no matter where you go, everyone is connected"
+      class="w-40 absolute md:w-55 bottom-0.5 right-0"
+    />
   </div>
 </div>
 {% endblock %}
