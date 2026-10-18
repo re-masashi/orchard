@@ -4,6 +4,37 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}{{ config.title }}{% endblock %}</title>
+    {% if page is defined %}
+    {% set og_title = page.title %}
+    {% set og_desc = page.description %}
+    {% set og_type = "article" %}
+    {% else %}
+    {% set og_title = config.title %}
+    {% set og_desc = config.description %}
+    {% set og_type = "website" %}
+    {% endif %}
+    {% if current_url is defined %}
+    {% set og_url = current_url %}
+    {% else %}
+    {% set og_url = config.base_url ~ "/" %}
+    {% endif %}
+    <meta name="description" content="{{ og_desc }}" />
+    {% if current_url is defined %}<link rel="canonical" href="{{ og_url }}" />{% endif %}
+    <meta property="og:site_name" content="{{ config.title }}" />
+    <meta property="og:type" content="{{ og_type }}" />
+    <meta property="og:title" content="{{ og_title }}" />
+    <meta property="og:description" content="{{ og_desc }}" />
+    <meta property="og:url" content="{{ og_url }}" />
+    <meta property="og:image" content="{{ get_url(path="lain.webp") }}" />
+    <meta name="twitter:card" content="summary" />
+    {% if config.generate_feeds %}
+    <link
+      rel="alternate"
+      type="application/atom+xml"
+      title="{{ config.title }}"
+      href="{{ get_url(path="atom.xml") }}"
+    />
+    {% endif %}
     <link rel="stylesheet" href="{{ get_url(path="output.css") }}" />
   </head>
   <body

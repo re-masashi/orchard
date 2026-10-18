@@ -3,6 +3,9 @@ title = "Masashi's Orchard"
 description = "Masashi's digital garden. PLDev and stuff"
 output_dir = "dist"
 minify_html = true
+generate_feeds = true
+generate_robots_txt = true
+generate_sitemap = true
 
 [markdown.highlighting]
 theme = "vitesse-dark"
