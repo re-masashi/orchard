@@ -1,7 +1,6 @@
-{% extends "base.html" %}
-{% block title %}Snippets | Masashi{% endblock %}
-{% block content %}
-<div class="flex flex-col w-full pt-10 px-[3vw] gap-3">
+{% extends "base.html" %} {% block title %}Snippets | Masashi{% endblock %} {%
+block content %}
+<div class="flex flex-col w-full py-10 px-[3vw] gap-3">
   <h1 class="font-array text-5xl">Snippets</h1>
   {% for snippet in section.pages %}
   <a
@@ -10,12 +9,8 @@
     data-description="{{ snippet.description }}"
     class="border border-white/10 hover:border-white/50 transition-all duration-300 p-2"
   >
-    <h2 class="font-array text-base font-medium mb-0.5">
-      {{ snippet.title }}
-    </h2>
-    <p class="text-sm">
-      {{ snippet.description }}
-    </p>
+    <h2 class="font-array text-base font-medium mb-0.5">{{ snippet.title }}</h2>
+    <p class="text-sm font-mono">{{ snippet.description }}</p>
   </a>
   {% endfor %}
 </div>

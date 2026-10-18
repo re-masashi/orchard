@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404</title>
+    <meta name="description" content="path not found" />
+    <meta property="og:site_name" content="Masashi's Orchard" />
+    <meta property="og:title" content="path not found" />
+    <meta property="og:description" content="page not found. search somewhere else." />
+    <link rel="stylesheet" href="{{ get_url(path="output.css") }}" />
+  </head>
+  <body
+    class="h-screen w-screen overflow-hidden overflow-y-scroll flex flex-col bg-black"
+  >
+    <a
+      href="#content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-black focus:text-white focus:border focus:border-white/40 focus:p-3 font-array"
+      >Skip to content</a
+    >
+    <header
+      class="w-screen h-[6vh] border-b-2 border-white/40 flex flex-row items-center px-0 md:px-4 py-3 text-white/85"
+    >
+      <div class="px-[3vw] font-array uppercase font-black">
+        <a class="text-xl md:text-2xl" href="/">Masashi's Orchard</a>
+      </div>
+      <nav
+        aria-label="Main"
+        class="ml-auto flex flex-row gap-3 font-array text-sm"
+      >
+        <a href="{{ get_url(path="@/blog/_index.md") }}" class="hover:text-white transition-all">blog</a>
+        <div class="text-white/50" aria-hidden="true">//</div>
+        <a href="/projects" class="hover:text-white transition-all">projects</a>
+        <div class="text-white/50" aria-hidden="true">//</div>
+        <a href="{{ get_url(path="@/snippets/_index.md") }}" class="hover:text-white transition-all">snippets</a>
+      </nav>
+    </header>
+    <div
+      class="w-screen min-h-[94vh] flex flex-col gap-2 overflow-hidden overflow-y-scroll p-4 text-white/85"
+    >
+      <main id="content" class="flex flex-row items-center justify-center w-screen h-full gap-10">
+        <img 
+          src="{{ get_url(path="lain.webp") }}"
+          alt="no matter where you go, everyone is connected"
+          class="h-[60vh] mb-4"
+        />
+        <div class="flex flex-col items-center justify-center gap-2">
+          <h1 class="text-8xl font-array">404</h1>
+          <h2 class="text-3xl font-array">Path not found</h2>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

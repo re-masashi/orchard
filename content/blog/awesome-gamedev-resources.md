@@ -7,7 +7,7 @@ extra:
   featured: false
 ---
 
-Der Name ist Programm. 
+Der Name ist Programm.
 I might forget these later so I thought I'd just list them here.
 
 ## AMD FidelityFX
@@ -23,7 +23,7 @@ Oh, and it's open source.
 ## Jolt
 
 [Jolt](https://github.com/jrouwe/JoltPhysics) is a performant physics engine with an easy to use (imo) API.
-It's been used by Horizon Forbidden West and Death Stranding 2 and it's been Godot's default physics engine for a while now. 
+It's been used by Horizon Forbidden West and Death Stranding 2 and it's been Godot's default physics engine for a while now.
 
 [This document](https://jrouwe.nl/jolt/JoltPhysicsMulticoreScaling.pdf) shows how Jolt performs compared to other physics engines.
 
@@ -31,9 +31,9 @@ It's been used by Horizon Forbidden West and Death Stranding 2 and it's been God
 
 [stb](https://github.com/nothings/stb) has a bunch of different singly file libraries ranging from lexers to perlin noise generators to image loading to leak checking and what not.
 
-I've used stb_image and it's pretty cool. 
+I've used stb_image and it's pretty cool.
 
-## GLFW 
+## GLFW
 
 [glfw](https://www.glfw.org/) is a great windowing library.
 
@@ -57,5 +57,3 @@ Useful if you import 3D models.
 ## Miniaudio
 
 [Miniaudio](https://github.com/mackron/miniaudio) has support for decoding and playing different audio files, 3D spatialization stuff and a node graph system for effects and filters.
-
-

@@ -19,6 +19,6 @@ private:
   std::string m_name;
   std::chrono::steady_clock::time_point m_start;
 };
-  
+
 #define TRACE_SCOPE() ScopedTracer tracer_##__LINE__(__FUNCTION__)
 ```

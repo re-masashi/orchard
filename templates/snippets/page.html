@@ -11,5 +11,10 @@
   </p>
   {% if page.extra.filename %}<p class="font-mono text-white/30">{{ page.extra.filename }}</p>{% endif %}
   {{ page.content | safe }}
+  <a
+    href="{{ get_url(path="@/snippets/_index.md") }}"
+    class="font-array text-white/50 hover:text-white py-4 transition-all self-start"
+    >&lt;- go back to snippets</a
+  >
 </div>
 {% endblock %}

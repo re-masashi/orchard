@@ -13,6 +13,13 @@
   {% set body = page.content
     | regex_replace(pattern=`<h2( [^>]*)?>`, rep=`<h2$1 class="font-array text-2xl">`)
     | regex_replace(pattern=`<a ([^>]*)>`, rep=`<a $1 class="text-white underline">`) %}
+  <div class="post-content">
   {{ body | safe }}
+  </div>
+  <a
+    href="{{ get_url(path="@/blog/_index.md") }}"
+    class="font-array text-white/50 hover:text-white py-4 transition-all self-start"
+    >&lt;- go back to blog</a
+  >
 </div>
 {% endblock %}

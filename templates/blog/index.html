@@ -1,24 +1,27 @@
-{% extends "base.html" %}
-{% block title %}Blog | Masashi{% endblock %}
-{% block content %}
-<div class="flex flex-col w-full pt-10 px-[3vw] gap-3">
+{% extends "base.html" %} {% block title %}Blog | Masashi{% endblock %} {% block
+content %}
+<div class="flex flex-col w-full py-10 px-[3vw] gap-3">
   <h1 class="font-array text-5xl">Blog</h1>
   {% for post in section.pages %}
   <a
     href="{{ post.permalink }}"
     class="group relative block border p-2 lg:p-3 border-white/10 hover:border-white/50 transition-all duration-300 cursor-pointer font-mono"
   >
-    <h2 class="font-array text-xl md:text-2xl group-hover:text-white transition-all duration-300">
+    <h2
+      class="font-array text-xl md:text-2xl group-hover:text-white transition-all duration-300"
+    >
       {{ post.title }}
     </h2>
 
-    <p class="mb-2">
-      {{ post.description }}
-    </p>
+    <p class="mb-2">{{ post.description }}</p>
 
     <div class="flex flex-row items-center gap-4 text-sm">
-      <span datetime="{{ post.date }}">{{ post.date | date(format="%B %d, %Y") }}</span>
-      {% for t in post.extra.tags %}<span class="text-white/30"><span aria-hidden="true">// </span>{{ t }}</span>{% endfor %}
+      <span datetime="{{ post.date }}"
+        >{{ post.date | date(format="%B %d, %Y") }}</span
+      >
+      {% for t in post.extra.tags %}<span class="text-white/30"
+        ><span aria-hidden="true">// </span>{{ t }}</span
+      >{% endfor %}
     </div>
   </a>
   {% endfor %}

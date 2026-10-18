@@ -8,4 +8,4 @@ generate_robots_txt = true
 generate_sitemap = true
 
 [markdown.highlighting]
-theme = "vitesse-dark"
+theme = "vitesse-black"

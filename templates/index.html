@@ -8,7 +8,7 @@
   <div class="flex flex-col w-6/7 pt-10 px-[3vw] gap-3">
     <h1 class="font-array text-5xl">Meow!</h1>
     <p class="font-mono">
-      I share my thoughts, progress, findings, opinions and some random
+      This is my digital garden. I share my thoughts, progress, findings, opinions and some random
       stuff here. Mostly PLDev, graphics or systems stuff.
     </p>
     <h2 class="text-2xl font-array my-2">Recent Stuff</h2>
@@ -30,11 +30,12 @@
       </div>
     </a>
     {% endif %}{% endfor %}
+    <a
+      href="{{ get_url(path="@/blog/_index.md") }}"
+      class="font-array text-white/50 hover:text-white py-4 transition-all self-start"
+      >see all posts -&gt; </a
+    >
     <h2 class="text-2xl font-array my-2">Snippets</h2>
-    <input
-      class="font-mono border border-white/10 mb-2 p-2 py-3 focus:outline-none focus:border-white/40 focus:bg-white/5"
-      placeholder="search snippets..."
-    />
     {% for snippet in snippets.pages %}{% if loop.index <= 3 %}
     <a
       href="{{ snippet.permalink }}"
@@ -45,11 +46,16 @@
       <h3 class="font-array text-base font-medium mb-0.5">
         {{ snippet.title }}
       </h3>
-      <p class="text-sm">
+      <p class="text-sm font-mono">
         {{ snippet.description }}
       </p>
     </a>
     {% endif %}{% endfor %}
+    <a
+      href="{{ get_url(path="@/blog/_index.md") }}"
+      class="font-array text-white/50 hover:text-white py-4 transition-all self-start"
+      >see all posts -&gt; </a
+    >
   </div>
   <div class="text-white/85 w-3/7 mr-[3vw] flex flex-col gap-3 pl-20">
     <h2 class="text-xl font-array my-2">Featured</h2>
